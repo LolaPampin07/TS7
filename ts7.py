@@ -76,6 +76,40 @@ for label, (b, a) in sistemas.items():
     plt.tight_layout()
 
 
+# %%
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Definimos los sistemas (coeficientes b)
+sistemas = {
+    'a': [1, 1, 1, 1],
+    'b': [1, 1, 1, 1, 1],
+    'c': [1, -1],
+    'd': [1, 0, -1]
+}
+
+# Vector de frecuencias
+N = 1024
+w = np.linspace(0, np.pi, N)  # frecuencia normalizada [0, π]
+
+plt.figure(figsize=(10, 6))
+
+for label, b in sistemas.items():
+    # Calculamos H(e^{jw}) usando la definición
+    H = np.zeros_like(w, dtype=complex)
+    for k, bk in enumerate(b):
+        H += bk * np.exp(-1j * w * k)
+    
+    # Magnitud en dB
+    plt.plot(w/np.pi, 20*np.log10(np.abs(H)), label=f'Sistema {label}')
+
+plt.title('Respuesta en Frecuencia (Simulación con Numpy)')
+plt.xlabel('Frecuencia Normalizada (x π)')
+plt.ylabel('Magnitud [dB]')
+plt.grid(True)
+plt.legend()
+plt.show()
+
 # %% Codigo porfe
 
 #!/usr/bin/env python3
